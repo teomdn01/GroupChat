@@ -4,15 +4,22 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * ClientHandler class helps us broadcast the messages/signals between the clients.
+ * @author teo
+ */
 public class ClientHandler implements IClientHandler, Runnable {
     //used to broadcast messages to the other clients
-    public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+    private static final ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
     private Socket socket;
     private BufferedReader bufferedReader; // used to read messages that have been sent from one client
     private BufferedWriter bufferedWriter; //used to send data to the other clients
     private String clientUsername;
 
-
+    /**
+     * Constructor of the ClientHandler class. Sets up the communication streams and adds the current instance to the clientHandlers list.
+     * @param socket the socket on which the respective client connected.
+     */
     public ClientHandler(Socket socket) {
         try {
             this.socket = socket;
@@ -29,8 +36,10 @@ public class ClientHandler implements IClientHandler, Runnable {
         }
 
     }
+
     /**
      * Sends the message received to all the other clients
+     * @param messageToSend message to be sent to the other clients
      */
     public void broadcastMessage(String messageToSend) {
         for (ClientHandler clientHandler : clientHandlers) {
@@ -46,6 +55,9 @@ public class ClientHandler implements IClientHandler, Runnable {
         }
     }
 
+    /**
+     * Removes the current reference from the clientHandler list
+     */
     @Override
     public void removeClientHandler() {
         clientHandlers.remove(this);
@@ -53,7 +65,10 @@ public class ClientHandler implements IClientHandler, Runnable {
     }
 
     /**
-        Closing the connection and the communicating streams
+     * Closing the connection and the communicating streams
+     * @param socket - the socket on which the client is connected
+     * @param reader - reading channel
+     * @param writer - writing channel
      */
     @Override
     public void closeEverything(Socket socket, BufferedReader reader, BufferedWriter writer) {

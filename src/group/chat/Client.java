@@ -8,6 +8,10 @@ import java.io.*;
 import java.net.Socket;
 import java.time.ZonedDateTime;
 
+/**
+ * Graphical user interface for the Client Side of the application
+ * @author teo
+ */
 public class Client extends JFrame implements IClient, ActionListener {
     private Socket socket;
     private BufferedReader bufferedReader; // used to read messages that have been sent from the server to the client
@@ -18,17 +22,21 @@ public class Client extends JFrame implements IClient, ActionListener {
     private static String profilePicturePath;
     private static String groupTitle;
 
-    JPanel panelTop;
-    JTextField textFieldMessage;
-    JButton buttonSendMessage;
-    JTextArea textAreaConversation;
+    private JPanel panelTop;
+    private JTextField textFieldMessage;
+    private JButton buttonSendMessage;
+    private JTextArea textAreaConversation;
 
-    JLabel groupPhotoLabel;
+    private JLabel groupPhotoLabel;
     private JLabel groupName;
 
+    /**
+     * Client class constructor. Opens the reading/writing channels, sets the username and shows the GUI window
+     * @param socket the socket on which the client is connected
+     * @param username the username received from the previous set-up window
+     */
     public Client(Socket socket, String username) {
         this.setUpWindow();
-        //this.setWindowTitle();
         try {
             this.socket = socket;
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -40,10 +48,9 @@ public class Client extends JFrame implements IClient, ActionListener {
         }
     }
 
-    public void setWindowTitle(String username) {
-        setTitle(username);
-    }
-
+    /**
+     * Sets up the graphical user interface method
+     */
     private void setUpWindow() {
         panelTop = new JPanel();
         panelTop.setLayout(null);
@@ -147,8 +154,6 @@ public class Client extends JFrame implements IClient, ActionListener {
         setSize(460, 735);
         setLocation(20, 20);
         setResizable(false);
-        //setUndecorated(true);
-       // setVisible(true);
     }
 
     private void setUpGroupTitle() {
@@ -168,7 +173,8 @@ public class Client extends JFrame implements IClient, ActionListener {
         }
     }
 
-    public void getNewGroupTitle() {
+
+    private void getNewGroupTitle() {
         String newTitle = JOptionPane.showInputDialog("Enter new group title: ");
         String specialMessage = "*GN*" + newTitle + "*GN*";
         try {
@@ -190,6 +196,11 @@ public class Client extends JFrame implements IClient, ActionListener {
         }
     }
 
+    /**
+     * Changes the group title
+     * @param title new title
+     */
+    @Override
     public void changeGroupTitle(String title) {
         groupName.setText(title);
     }
@@ -258,7 +269,7 @@ public class Client extends JFrame implements IClient, ActionListener {
     }
 
     /**
-     * First we send the username of the client to the clienthandler list
+     * Sends the username of the client to the clienthandler list
      */
     @Override
     public void sendUsername() {
@@ -302,6 +313,10 @@ public class Client extends JFrame implements IClient, ActionListener {
         }).start();
     }
 
+    /**
+     * Changes the profile picture with the one from the path received
+     * @param messageFromGroupChat photo path with delimiters received from the client that actually changed the group photo
+     */
     public void changePictureWithReceivedPath(String messageFromGroupChat) {
         String selectedImagePath = messageFromGroupChat.substring(4, messageFromGroupChat.length() - 4);
         System.out.println(selectedImagePath);
@@ -313,7 +328,10 @@ public class Client extends JFrame implements IClient, ActionListener {
     }
 
     /**
-     Closing the connection and the communicating streams
+     * Closing the connection and the communicating streams
+     * @param socket the socket on which the client is connected
+     * @param reader reading channel
+     * @param writer writing channel
      */
     @Override
     public void closeEverything(Socket socket, BufferedReader reader, BufferedWriter writer) {
@@ -332,7 +350,10 @@ public class Client extends JFrame implements IClient, ActionListener {
         }
     }
 
-
+    /**
+     * Appends the message of the current client to their respective interface, then sends the message to the other clients
+     * @param e event when the "Send" message button was pressed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (socket.isConnected()) {
@@ -349,9 +370,12 @@ public class Client extends JFrame implements IClient, ActionListener {
         }
     }
 
+    /**
+     * Main method through we launch the set-up window, then the client window is launched
+     * @param args
+     */
     public static void main(String[] args) {
         SetupClient setupClient = new SetupClient();
-
     }
 
 }

@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Graphical user interface for the server-side of the application
+ * @author teo
+ */
 public class ServerGUI extends JFrame implements ActionListener {
     private final Server server;
     private final JPanel panel;
@@ -39,7 +43,6 @@ public class ServerGUI extends JFrame implements ActionListener {
     /**
      * Waits for clients to connect to the server.
      * When that happens, it starts a new thread to handle the respective client.
-     *
      */
     public void runServer() {
         try {
@@ -57,24 +60,9 @@ public class ServerGUI extends JFrame implements ActionListener {
         }
     }
 
-    public static void main(String[] args) {
-        //our server will be listening for clients that are making a connection to this port number
-        try {
-            ServerSocket serverSocket = new ServerSocket(1234);
-            Server server = new Server(serverSocket);
-            ServerGUI serverWindow = new ServerGUI(server);
-            serverWindow.runServer();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Am reusit sa ajungem aici");
-
-    }
-
     /**
      * Whenever we press the reset button, current application changes are discarded
-     * @param e - action event
+     * @param e action event
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -86,4 +74,22 @@ public class ServerGUI extends JFrame implements ActionListener {
             ioException.printStackTrace();
         }
     }
+
+    /**
+     * Main method from which the server side runs. Creates a server-side socket which runs on port 1234
+     * @param args
+     */
+    public static void main(String[] args) {
+        //our server will be listening for clients that are making a connection to this port number
+        try {
+            ServerSocket serverSocket = new ServerSocket(1234);
+            Server server = new Server(serverSocket);
+            ServerGUI serverWindow = new ServerGUI(server);
+            serverWindow.runServer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

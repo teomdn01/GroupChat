@@ -7,6 +7,10 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * GUI class which is used to set up the settings of the Client which follows to be loaded.
+ * @author teo
+ */
 public class SetupClient extends JFrame implements ActionListener {
     private final JTextField usernameField;
     private final JButton chooseUsernameButton;
@@ -39,7 +43,9 @@ public class SetupClient extends JFrame implements ActionListener {
     }
 
     /**
-     * After choosing the username, creates a new Client entity and closes the current window
+     * After choosing the username, creates a new Client entity which connects with the server through a socket running on the same port as the server.
+     * Then, it closes the current window
+     * @param e - action event triggered when pressing the "Enter" button
      */
     @Override
     public void actionPerformed(ActionEvent e) {

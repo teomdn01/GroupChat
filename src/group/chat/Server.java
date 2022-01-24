@@ -5,9 +5,16 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * @author teo
+ */
 public class Server implements IServer {
     private ServerSocket serverSocket;
 
+    /**
+     * Server constructor
+     * @param serverSocket provides server-side Socket connection
+     */
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
     }
@@ -27,9 +34,19 @@ public class Server implements IServer {
         }
     }
 
+    /**
+     * get the server socket
+     * @return the serverSocket
+     */
     public ServerSocket getServerSocket() {
         return serverSocket;
     }
+
+    /**
+     * After a client connected, gets the client-side socket of the connection
+     * @return the socket on which the client connected
+     * @throws IOException in case any error occurs
+     */
     @Override
     public Socket acceptConnection() throws IOException {
         return serverSocket.accept();
