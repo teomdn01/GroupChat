@@ -2,6 +2,7 @@
 
 * This is a group chatting application!
 * When entering the chat, you first need to choose your username. Remember to allow multiple instances when launching the client window.
+* 
  ![alt text](https://github.com/teomdn01/GroupChat/blob/master/readme-images/1.png?raw=true)
 
 * The app tells you who and when entered the group chat. The server also keeps track of that.
